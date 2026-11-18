@@ -122,7 +122,8 @@ class TestAccountService(TestCase):
             json=account.serialize(),
             content_type="test/html"
         )
-        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        self.assertEqual(response.status_code,
+                         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
 
@@ -196,7 +197,8 @@ class TestAccountService(TestCase):
             json=account.serialize(),
             content_type="test/html"
         )
-        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        self.assertEqual(response.status_code,
+                         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
 
 ######################################################################
@@ -231,11 +233,14 @@ class TestSecurityHeaders(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.headers.get("X-Frame-Options"), "DENY")
-        self.assertEqual(response.headers.get("X-Content-Type-Options"), "nosniff")
-        self.assertEqual(response.headers.get("Referrer-Policy"), "no-referrer")
+        self.assertEqual(response.headers.get("X-Content-Type-Options"),
+                         "nosniff")
+        self.assertEqual(response.headers.get("Referrer-Policy"),
+                         "no-referrer")
         # Strict-Transport-Security is only set when force_https is enabled
         if app.config.get("FORCE_HTTPS", True):
-            self.assertIsNotNone(response.headers.get("Strict-Transport-Security"))
+            self.assertIsNotNone(
+                response.headers.get("Strict-Transport-Security"))
 
     def test_content_security_policy_header(self):
         """It should return Content-Security-Policy header"""
@@ -246,4 +251,5 @@ class TestSecurityHeaders(TestCase):
         """It should return CORS headers"""
         response = self.client.options(BASE_URL)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIsNotNone(response.headers.get("Access-Control-Allow-Origin"))
+        self.assertIsNotNone(
+            response.headers.get("Access-Control-Allow-Origin"))

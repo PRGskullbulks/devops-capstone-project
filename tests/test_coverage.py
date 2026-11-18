@@ -6,12 +6,9 @@ import logging
 import unittest
 from unittest.mock import patch, MagicMock
 from service import app
-from service.config import DATABASE_URI, FORCE_HTTPS, SQLALCHEMY_DATABASE_URI
 from service.common import status
-from service.common import error_handlers
 from service.common import log_handlers
-from service.models import Account, DataValidationError, db, init_db
-from tests.factories import AccountFactory
+from service.models import Account, db, init_db
 
 
 ######################################################################
@@ -21,7 +18,8 @@ class TestConfig(unittest.TestCase):
     """Configuration tests"""
 
     def test_database_uri_from_individual_env_vars(self):
-        """It should build DATABASE_URI from individual env vars when DATABASE_URI is not set"""
+        """It should build DATABASE_URI from individual env vars
+        when DATABASE_URI is not set"""
         # Save original values
         orig_db_uri = os.environ.pop("DATABASE_URI", None)
         orig_user = os.environ.get("DATABASE_USER")
@@ -86,14 +84,16 @@ class TestErrorHandlers(unittest.TestCase):
     def test_method_not_allowed_405(self):
         """It should return 405 for unsupported HTTP methods"""
         response = self.client.put("/accounts")
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(response.status_code,
+                         status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_internal_server_error_500(self):
         """It should return 500 for internal server errors"""
         # Force a 500 by patching Account.all to raise an exception
         with patch.object(Account, "all", side_effect=Exception("DB error")):
             response = self.client.get("/accounts")
-            self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+            self.assertEqual(response.status_code,
+                             status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 ######################################################################
