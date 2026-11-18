@@ -1,0 +1,3 @@
+curl -X DELETE http://localhost:8080/accounts/5
+
+HTTP Status: 204
