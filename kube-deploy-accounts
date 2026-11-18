@@ -1,0 +1,12 @@
+NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                           SELECTOR
+deployment.apps/accounts-deployment   1/1     1            1           10s   accounts     devops-capstone-project:latest   app=accounts
+
+NAME                                       READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+pod/accounts-deployment-6f4645f8bf-q2mxj   1/1     Running   0          10s   10.244.0.3   minikube   <none>           <none>
+
+NAME                                             DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES                           SELECTOR
+replicaset.apps/accounts-deployment-6f4645f8bf   1         1         1       10s   accounts     devops-capstone-project:latest   app=accounts,pod-template-hash=6f4645f8bf
+
+NAME                       TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE   SELECTOR
+service/accounts-service   NodePort    10.98.111.34   <none>        8080:30080/TCP   10s   app=accounts
+service/kubernetes         ClusterIP   10.96.0.1      <none>        443/TCP          42s   <none>
