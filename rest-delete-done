@@ -1,3 +1,13 @@
 curl -X DELETE http://localhost:8080/accounts/5
+HTTP/1.1 204 NO CONTENT
+Server: gunicorn
+Date: Wed, 18 Nov 2026 21:23:58 GMT
+Connection: close
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-_OR1qUhmf5gB7DVDqog5JfvqqQ3xS9xT'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: no-referrer
+Access-Control-Allow-Origin: *
 
-HTTP Status: 204

@@ -1,3 +1,16 @@
 curl -X POST http://localhost:8080/accounts -H "Content-Type: application/json" -d '{"name":"Juan Pérez","email":"juan@test.com","address":"Calle 123","phone_number":"555-0100"}'
-{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}
+HTTP/1.1 201 CREATED
+Server: gunicorn
+Date: Wed, 18 Nov 2026 21:23:45 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 133
+Location: http://localhost:8080/accounts/5
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-TuolS9wVSDFSXAgfCrXGr5vQlIMgZYya'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: no-referrer
+Access-Control-Allow-Origin: *
 
+{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}

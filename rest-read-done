@@ -1,3 +1,15 @@
 curl http://localhost:8080/accounts/5
-{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Wed, 18 Nov 2026 21:23:52 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 133
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-dF-81JF9yKyewXDMqszZ6hBkFqs-5UDK'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: no-referrer
+Access-Control-Allow-Origin: *
 
+{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}

@@ -1,3 +1,15 @@
 curl http://localhost:8080/accounts
-[{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":2,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":3,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":4,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}]
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Wed, 18 Nov 2026 21:23:49 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 534
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-oaakK-TFydEOQ4Q9lAtFamgkr-9pnXrJ'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: no-referrer
+Access-Control-Allow-Origin: *
 
+[{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":2,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":3,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-17","email":"juan@test.com","id":4,"name":"Juan P\u00e9rez","phone_number":"555-0100"},{"address":"Calle 123","date_joined":"2026-11-18","email":"juan@test.com","id":5,"name":"Juan P\u00e9rez","phone_number":"555-0100"}]
