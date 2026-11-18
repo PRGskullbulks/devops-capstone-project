@@ -1,51 +1,43 @@
 === Tekton PipelineRun Logs ===
 
-PipelineRun: simple-cd-pipeline-run
+PipelineRun: simple-cd-pipeline-final-run
 
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"tekton.dev/v1beta1","kind":"PipelineRun","metadata":{"annotations":{},"name":"simple-cd-pipeline-run","namespace":"default"},"spec":{"params":[{"name":"message","value":"CD Pipeline executed successfully on minikube"}],"pipelineRef":{"name":"simple-cd-pipeline"},"workspaces":[{"name":"pipeline-workspace","persistentVolumeClaim":{"claimName":"pipelinerun-pvc"}}]}}
-  creationTimestamp: "2026-11-18T20:55:56Z"
+      {"apiVersion":"tekton.dev/v1beta1","kind":"PipelineRun","metadata":{"annotations":{},"name":"simple-cd-pipeline-final-run","namespace":"default"},"spec":{"params":[{"name":"message","value":"CD Pipeline executed successfully on minikube"}],"pipelineRef":{"name":"simple-cd-pipeline-final"}}}
+  creationTimestamp: "2026-11-18T21:27:06Z"
   generation: 1
   labels:
-    tekton.dev/pipeline: simple-cd-pipeline
-  name: simple-cd-pipeline-run
+    tekton.dev/pipeline: simple-cd-pipeline-final
+  name: simple-cd-pipeline-final-run
   namespace: default
-  resourceVersion: "1046"
-  uid: 509c73d0-1f1c-45aa-89b7-509b89751165
+  resourceVersion: "5463"
+  uid: 35cd5f96-95be-4793-82a8-9a09e05045a4
 spec:
   params:
   - name: message
     value: CD Pipeline executed successfully on minikube
   pipelineRef:
-    name: simple-cd-pipeline
+    name: simple-cd-pipeline-final
   taskRunTemplate:
     serviceAccountName: default
   timeouts:
     pipeline: 1h0m0s
-  workspaces:
-  - name: pipeline-workspace
-    persistentVolumeClaim:
-      claimName: pipelinerun-pvc
 status:
   childReferences:
   - apiVersion: tekton.dev/v1
     kind: TaskRun
-    name: simple-cd-pipeline-run-echo-message
+    name: simple-cd-pipeline-final-run-echo-message
     pipelineTaskName: echo-message
-  - apiVersion: tekton.dev/v1
-    kind: TaskRun
-    name: simple-cd-pipeline-run-cleanup-workspace
-    pipelineTaskName: cleanup-workspace
+  completionTime: "2026-11-18T21:27:19Z"
   conditions:
-  - lastTransitionTime: "2026-11-18T20:56:06Z"
-    message: 'Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped:
-      0'
-    reason: Running
-    status: Unknown
+  - lastTransitionTime: "2026-11-18T21:27:19Z"
+    message: 'Tasks Completed: 1 (Failed: 0, Cancelled 0), Skipped: 0'
+    reason: Succeeded
+    status: "True"
     type: Succeeded
   pipelineSpec:
     params:
@@ -60,17 +52,6 @@ status:
       taskRef:
         kind: Task
         name: echo
-    - name: cleanup-workspace
-      runAfter:
-      - echo-message
-      taskRef:
-        kind: Task
-        name: cleanup
-      workspaces:
-      - name: source
-        workspace: pipeline-workspace
-    workspaces:
-    - name: pipeline-workspace
   provenance:
     featureFlags:
       awaitSidecarReadiness: true
@@ -82,53 +63,48 @@ status:
       resultExtractionMethod: termination-message
       runningInEnvWithInjectedSidecars: true
       verificationNoMatchPolicy: ignore
-  startTime: "2026-11-18T20:55:56Z"
+  startTime: "2026-11-18T21:27:06Z"
 
-=== Task Logs: echo-message ===
-Defaulted container "step-echo-message" out of: step-echo-message, prepare (init)
+=== Task Logs ===
+2026/11/18 21:27:08 Entrypoint initialization
+CD Pipeline executed successfully on minikube
+2026/11/18 20:56:01 Entrypoint initialization
 CD Pipeline executed successfully on minikube
 
 === PipelineRun Status ===
-Name:         simple-cd-pipeline-run
+Name:         simple-cd-pipeline-final-run
 Namespace:    default
-Labels:       tekton.dev/pipeline=simple-cd-pipeline
+Labels:       tekton.dev/pipeline=simple-cd-pipeline-final
 Annotations:  <none>
 API Version:  tekton.dev/v1
 Kind:         PipelineRun
 Metadata:
-  Creation Timestamp:  2026-11-18T20:55:56Z
+  Creation Timestamp:  2026-11-18T21:27:06Z
   Generation:          1
-  Resource Version:    1046
-  UID:                 509c73d0-1f1c-45aa-89b7-509b89751165
+  Resource Version:    5463
+  UID:                 35cd5f96-95be-4793-82a8-9a09e05045a4
 Spec:
   Params:
     Name:   message
     Value:  CD Pipeline executed successfully on minikube
   Pipeline Ref:
-    Name:  simple-cd-pipeline
+    Name:  simple-cd-pipeline-final
   Task Run Template:
     Service Account Name:  default
   Timeouts:
     Pipeline:  1h0m0s
-  Workspaces:
-    Name:  pipeline-workspace
-    Persistent Volume Claim:
-      Claim Name:  pipelinerun-pvc
 Status:
   Child References:
     API Version:         tekton.dev/v1
     Kind:                TaskRun
-    Name:                simple-cd-pipeline-run-echo-message
+    Name:                simple-cd-pipeline-final-run-echo-message
     Pipeline Task Name:  echo-message
-    API Version:         tekton.dev/v1
-    Kind:                TaskRun
-    Name:                simple-cd-pipeline-run-cleanup-workspace
-    Pipeline Task Name:  cleanup-workspace
+  Completion Time:       2026-11-18T21:27:19Z
   Conditions:
-    Last Transition Time:  2026-11-18T20:56:06Z
-    Message:               Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped: 0
-    Reason:                Running
-    Status:                Unknown
+    Last Transition Time:  2026-11-18T21:27:19Z
+    Message:               Tasks Completed: 1 (Failed: 0, Cancelled 0), Skipped: 0
+    Reason:                Succeeded
+    Status:                True
     Type:                  Succeeded
   Pipeline Spec:
     Params:
@@ -143,17 +119,6 @@ Status:
       Task Ref:
         Kind:  Task
         Name:  echo
-      Name:    cleanup-workspace
-      Run After:
-        echo-message
-      Task Ref:
-        Kind:  Task
-        Name:  cleanup
-      Workspaces:
-        Name:       source
-        Workspace:  pipeline-workspace
-    Workspaces:
-      Name:  pipeline-workspace
   Provenance:
     Feature Flags:
       Await Sidecar Readiness:                true
@@ -165,10 +130,10 @@ Status:
       Result Extraction Method:               termination-message
       Running In Env With Injected Sidecars:  true
       Verification No Match Policy:           ignore
-  Start Time:                                 2026-11-18T20:55:56Z
+  Start Time:                                 2026-11-18T21:27:06Z
 Events:
-  Type    Reason   Age                From         Message
-  ----    ------   ----               ----         -------
-  Normal  Started  97s (x2 over 97s)  PipelineRun  
-  Normal  Running  97s (x2 over 97s)  PipelineRun  Tasks Completed: 0 (Failed: 0, Cancelled 0), Incomplete: 2, Skipped: 0
-  Normal  Running  87s (x2 over 87s)  PipelineRun  Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped: 0
+  Type    Reason     Age                From         Message
+  ----    ------     ----               ----         -------
+  Normal  Started    21s (x2 over 22s)  PipelineRun  
+  Normal  Running    21s (x2 over 22s)  PipelineRun  Tasks Completed: 0 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped: 0
+  Normal  Succeeded  9s                 PipelineRun  Tasks Completed: 1 (Failed: 0, Cancelled 0), Skipped: 0
