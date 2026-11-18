@@ -1,13 +1,31 @@
 curl -X DELETE http://localhost:8080/accounts/5
-HTTP/1.1 204 NO CONTENT
-Server: gunicorn
-Date: Wed, 18 Nov 2026 21:23:58 GMT
-Connection: close
-Content-Type: text/html; charset=utf-8
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-X-Content-Type-Options: nosniff
-Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-_OR1qUhmf5gB7DVDqog5JfvqqQ3xS9xT'; style-src 'self'; img-src 'self' data:
-Referrer-Policy: no-referrer
-Access-Control-Allow-Origin: *
-
+* Uses proxy env variable no_proxy == '127.0.0.1,localhost,::1'
+* Host localhost:8080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:8080...
+* connect to ::1 port 8080 from ::1 port 56126 failed: Connection refused
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080
+> DELETE /accounts/5 HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.7.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 204 NO CONTENT
+< Server: gunicorn
+< Date: Wed, 18 Nov 2026 21:24:39 GMT
+< Connection: close
+< Content-Type: text/html; charset=utf-8
+< X-Frame-Options: DENY
+< X-XSS-Protection: 1; mode=block
+< X-Content-Type-Options: nosniff
+< Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-lCw-6xVWJloA1x1w_x-jK9SVgwgOF5-g'; style-src 'self'; img-src 'self' data:
+< Referrer-Policy: no-referrer
+< Access-Control-Allow-Origin: *
+< 
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Closing connection
