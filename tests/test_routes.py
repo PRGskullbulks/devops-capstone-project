@@ -32,6 +32,7 @@ class TestAccountService(TestCase):
         app.config["TESTING"] = True
         app.config["DEBUG"] = False
         app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+        app.config["FORCE_HTTPS"] = False
         app.logger.setLevel(logging.CRITICAL)
         init_db(app)
 
@@ -124,3 +125,125 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
+
+    def test_list_all_accounts(self):
+        """It should List all Accounts"""
+        self._create_accounts(5)
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), 5)
+
+    def test_list_no_accounts(self):
+        """It should return an empty list when no accounts exist"""
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.get_json(), [])
+
+    def test_read_an_account(self):
+        """It should Read a single Account"""
+        account = self._create_accounts(1)[0]
+        response = self.client.get(f"{BASE_URL}/{account.id}")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(data["name"], account.name)
+
+    def test_read_account_not_found(self):
+        """It should return 404 when reading a non-existent Account"""
+        response = self.client.get(f"{BASE_URL}/99999")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_an_account(self):
+        """It should Update an existing Account"""
+        account = self._create_accounts(1)[0]
+        new_name = "Updated Name"
+        account.name = new_name
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=account.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(data["name"], new_name)
+
+    def test_update_account_not_found(self):
+        """It should return 404 when updating a non-existent Account"""
+        account = AccountFactory()
+        response = self.client.put(
+            f"{BASE_URL}/99999",
+            json=account.serialize(),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_an_account(self):
+        """It should Delete an Account"""
+        account = self._create_accounts(1)[0]
+        response = self.client.delete(f"{BASE_URL}/{account.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_account_not_found(self):
+        """It should return 404 when deleting a non-existent Account"""
+        response = self.client.delete(f"{BASE_URL}/99999")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_unsupported_media_type_on_update(self):
+        """It should not Update an Account when sending the wrong media type"""
+        account = self._create_accounts(1)[0]
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=account.serialize(),
+            content_type="test/html"
+        )
+        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+
+######################################################################
+#  S E C U R I T Y   H E A D E R   T E S T S
+######################################################################
+
+class TestSecurityHeaders(TestCase):
+    """Security Headers Tests (Talisman + CORS)"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Run once before all tests"""
+        app.config["TESTING"] = True
+        app.config["DEBUG"] = False
+        app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+        app.config["FORCE_HTTPS"] = False
+        app.logger.setLevel(logging.CRITICAL)
+        init_db(app)
+
+    def setUp(self):
+        """Runs before each test"""
+        db.session.query(Account).delete()
+        db.session.commit()
+        self.client = app.test_client()
+
+    def tearDown(self):
+        """Runs once after each test case"""
+        db.session.remove()
+
+    def test_security_headers_present(self):
+        """It should return security headers from Talisman"""
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.headers.get("X-Frame-Options"), "DENY")
+        self.assertEqual(response.headers.get("X-Content-Type-Options"), "nosniff")
+        self.assertEqual(response.headers.get("Referrer-Policy"), "no-referrer")
+        # Strict-Transport-Security is only set when force_https is enabled
+        if app.config.get("FORCE_HTTPS", True):
+            self.assertIsNotNone(response.headers.get("Strict-Transport-Security"))
+
+    def test_content_security_policy_header(self):
+        """It should return Content-Security-Policy header"""
+        response = self.client.get("/")
+        self.assertIsNotNone(response.headers.get("Content-Security-Policy"))
+
+    def test_cors_headers_present(self):
+        """It should return CORS headers"""
+        response = self.client.options(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(response.headers.get("Access-Control-Allow-Origin"))

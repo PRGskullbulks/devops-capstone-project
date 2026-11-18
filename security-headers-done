@@ -1,0 +1,121 @@
+test_database_uri_from_individual_env_vars (tests.test_coverage.TestConfig.test_database_uri_from_individual_env_vars)
+It should build DATABASE_URI from individual env vars when DATABASE_URI is not set ... ok
+test_internal_server_error_500 (tests.test_coverage.TestErrorHandlers.test_internal_server_error_500)
+It should return 500 for internal server errors ... Exception on /accounts [GET]
+Traceback (most recent call last):
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/venv312/lib/python3.12/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/venv312/lib/python3.12/site-packages/flask/app.py", line 1525, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/venv312/lib/python3.12/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/venv312/lib/python3.12/site-packages/flask/app.py", line 1523, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/venv312/lib/python3.12/site-packages/flask/app.py", line 1509, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/william/terraform/devops-capstone-project/devops-capstone-project/service/routes.py", line 66, in list_accounts
+    accounts = Account.all()
+               ^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.16/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.16/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.16/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+Exception: DB error
+500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+ok
+test_method_not_allowed_405 (tests.test_coverage.TestErrorHandlers.test_method_not_allowed_405)
+It should return 405 for unsupported HTTP methods ... 405 Method Not Allowed: The method is not allowed for the requested URL.
+ok
+test_init_logging_sets_formatter (tests.test_coverage.TestLogHandlers.test_init_logging_sets_formatter)
+It should set formatter on all handlers ... ok
+test_deserialize_with_empty_date_joined (tests.test_coverage.TestModelCoverage.test_deserialize_with_empty_date_joined)
+It should handle deserialize with no date_joined ... ok
+test_find_returns_none (tests.test_coverage.TestModelCoverage.test_find_returns_none)
+It should return None when account not found ... ok
+test_persistent_base_init (tests.test_coverage.TestModelCoverage.test_persistent_base_init)
+It should initialize PersistentBase with id=None ... ok
+test_bad_request (tests.test_routes.TestAccountService.test_bad_request)
+It should not Create an Account when sending the wrong data ... ok
+test_create_account (tests.test_routes.TestAccountService.test_create_account)
+It should Create a new Account ... ok
+test_delete_account_not_found (tests.test_routes.TestAccountService.test_delete_account_not_found)
+It should return 404 when deleting a non-existent Account ... ok
+test_delete_an_account (tests.test_routes.TestAccountService.test_delete_an_account)
+It should Delete an Account ... ok
+test_health (tests.test_routes.TestAccountService.test_health)
+It should be healthy ... ok
+test_index (tests.test_routes.TestAccountService.test_index)
+It should get 200_OK from the Home Page ... ok
+test_list_all_accounts (tests.test_routes.TestAccountService.test_list_all_accounts)
+It should List all Accounts ... ok
+test_list_no_accounts (tests.test_routes.TestAccountService.test_list_no_accounts)
+It should return an empty list when no accounts exist ... ok
+test_read_account_not_found (tests.test_routes.TestAccountService.test_read_account_not_found)
+It should return 404 when reading a non-existent Account ... ok
+test_read_an_account (tests.test_routes.TestAccountService.test_read_an_account)
+It should Read a single Account ... ok
+test_unsupported_media_type (tests.test_routes.TestAccountService.test_unsupported_media_type)
+It should not Create an Account when sending the wrong media type ... ok
+test_unsupported_media_type_on_update (tests.test_routes.TestAccountService.test_unsupported_media_type_on_update)
+It should not Update an Account when sending the wrong media type ... ok
+test_update_account_not_found (tests.test_routes.TestAccountService.test_update_account_not_found)
+It should return 404 when updating a non-existent Account ... ok
+test_update_an_account (tests.test_routes.TestAccountService.test_update_an_account)
+It should Update an existing Account ... ok
+test_content_security_policy_header (tests.test_routes.TestSecurityHeaders.test_content_security_policy_header)
+It should return Content-Security-Policy header ... ok
+test_cors_headers_present (tests.test_routes.TestSecurityHeaders.test_cors_headers_present)
+It should return CORS headers ... ok
+test_security_headers_present (tests.test_routes.TestSecurityHeaders.test_security_headers_present)
+It should return security headers from Talisman ... ok
+test_add_a_account (tests.test_models.TestAccount.test_add_a_account)
+It should Create an account and add it to the database ... ok
+test_create_an_account (tests.test_models.TestAccount.test_create_an_account)
+It should Create an Account and assert that it exists ... ok
+test_delete_an_account (tests.test_models.TestAccount.test_delete_an_account)
+It should Delete an account from the database ... ok
+test_deserialize_an_account (tests.test_models.TestAccount.test_deserialize_an_account)
+It should Deserialize an account ... ok
+test_deserialize_with_key_error (tests.test_models.TestAccount.test_deserialize_with_key_error)
+It should not Deserialize an account with a KeyError ... ok
+test_deserialize_with_type_error (tests.test_models.TestAccount.test_deserialize_with_type_error)
+It should not Deserialize an account with a TypeError ... ok
+test_find_by_name (tests.test_models.TestAccount.test_find_by_name)
+It should Find an Account by name ... ok
+test_list_all_accounts (tests.test_models.TestAccount.test_list_all_accounts)
+It should List all Accounts in the database ... ok
+test_read_account (tests.test_models.TestAccount.test_read_account)
+It should Read an account ... ok
+test_serialize_an_account (tests.test_models.TestAccount.test_serialize_an_account)
+It should Serialize an account ... ok
+test_update_account (tests.test_models.TestAccount.test_update_account)
+It should Update an account ... ok
+test_db_create (tests.test_cli_commands.TestFlaskCLI.test_db_create)
+It should call the db-create command ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.330s
+
+OK
+Name                               Stmts   Miss  Cover   Missing
+----------------------------------------------------------------
+service/__init__.py                   24      3    88%   61-64
+service/common/__init__.py             0      0   100%
+service/common/cli_commands.py         8      0   100%
+service/common/error_handlers.py      33      0   100%
+service/common/log_handlers.py        11      0   100%
+service/common/status.py              47      1    98%
+service/config.py                     13      0   100%
+service/models.py                     70      2    97%   32, 98
+service/routes.py                     59      0   100%
+----------------------------------------------------------------
+TOTAL                                265      6    98%
