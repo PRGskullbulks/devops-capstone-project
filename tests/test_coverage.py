@@ -96,7 +96,8 @@ class TestErrorHandlers(unittest.TestCase):
                 raise Exception("DB error")
             except Exception as error:
                 response = error_handlers.internal_server_error(error)
-                self.assertEqual(response[1], status.HTTP_500_INTERNAL_SERVER_ERROR)
+                self.assertEqual(response[1],
+                                 status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 ######################################################################
