@@ -51,6 +51,7 @@ jobs:
       - name: Run nosetests with coverage
         env:
           DATABASE_URI: postgresql://postgres:postgres@localhost:5432/accounts
+          FORCE_HTTPS: "false"
         run: |
           python -m nose2 -v --coverage service
 
