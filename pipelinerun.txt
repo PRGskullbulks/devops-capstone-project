@@ -1,0 +1,174 @@
+=== Tekton PipelineRun Logs ===
+
+PipelineRun: simple-cd-pipeline-run
+
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1beta1","kind":"PipelineRun","metadata":{"annotations":{},"name":"simple-cd-pipeline-run","namespace":"default"},"spec":{"params":[{"name":"message","value":"CD Pipeline executed successfully on minikube"}],"pipelineRef":{"name":"simple-cd-pipeline"},"workspaces":[{"name":"pipeline-workspace","persistentVolumeClaim":{"claimName":"pipelinerun-pvc"}}]}}
+  creationTimestamp: "2026-11-18T20:55:56Z"
+  generation: 1
+  labels:
+    tekton.dev/pipeline: simple-cd-pipeline
+  name: simple-cd-pipeline-run
+  namespace: default
+  resourceVersion: "1046"
+  uid: 509c73d0-1f1c-45aa-89b7-509b89751165
+spec:
+  params:
+  - name: message
+    value: CD Pipeline executed successfully on minikube
+  pipelineRef:
+    name: simple-cd-pipeline
+  taskRunTemplate:
+    serviceAccountName: default
+  timeouts:
+    pipeline: 1h0m0s
+  workspaces:
+  - name: pipeline-workspace
+    persistentVolumeClaim:
+      claimName: pipelinerun-pvc
+status:
+  childReferences:
+  - apiVersion: tekton.dev/v1
+    kind: TaskRun
+    name: simple-cd-pipeline-run-echo-message
+    pipelineTaskName: echo-message
+  - apiVersion: tekton.dev/v1
+    kind: TaskRun
+    name: simple-cd-pipeline-run-cleanup-workspace
+    pipelineTaskName: cleanup-workspace
+  conditions:
+  - lastTransitionTime: "2026-11-18T20:56:06Z"
+    message: 'Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped:
+      0'
+    reason: Running
+    status: Unknown
+    type: Succeeded
+  pipelineSpec:
+    params:
+    - default: Hello from Tekton CD Pipeline
+      name: message
+      type: string
+    tasks:
+    - name: echo-message
+      params:
+      - name: message
+        value: CD Pipeline executed successfully on minikube
+      taskRef:
+        kind: Task
+        name: echo
+    - name: cleanup-workspace
+      runAfter:
+      - echo-message
+      taskRef:
+        kind: Task
+        name: cleanup
+      workspaces:
+      - name: source
+        workspace: pipeline-workspace
+    workspaces:
+    - name: pipeline-workspace
+  provenance:
+    featureFlags:
+      awaitSidecarReadiness: true
+      coschedule: workspaces
+      enableAPIFields: beta
+      enableProvenanceInStatus: true
+      enforceNonfalsifiability: none
+      maxResultSize: 4096
+      resultExtractionMethod: termination-message
+      runningInEnvWithInjectedSidecars: true
+      verificationNoMatchPolicy: ignore
+  startTime: "2026-11-18T20:55:56Z"
+
+=== Task Logs: echo-message ===
+Defaulted container "step-echo-message" out of: step-echo-message, prepare (init)
+CD Pipeline executed successfully on minikube
+
+=== PipelineRun Status ===
+Name:         simple-cd-pipeline-run
+Namespace:    default
+Labels:       tekton.dev/pipeline=simple-cd-pipeline
+Annotations:  <none>
+API Version:  tekton.dev/v1
+Kind:         PipelineRun
+Metadata:
+  Creation Timestamp:  2026-11-18T20:55:56Z
+  Generation:          1
+  Resource Version:    1046
+  UID:                 509c73d0-1f1c-45aa-89b7-509b89751165
+Spec:
+  Params:
+    Name:   message
+    Value:  CD Pipeline executed successfully on minikube
+  Pipeline Ref:
+    Name:  simple-cd-pipeline
+  Task Run Template:
+    Service Account Name:  default
+  Timeouts:
+    Pipeline:  1h0m0s
+  Workspaces:
+    Name:  pipeline-workspace
+    Persistent Volume Claim:
+      Claim Name:  pipelinerun-pvc
+Status:
+  Child References:
+    API Version:         tekton.dev/v1
+    Kind:                TaskRun
+    Name:                simple-cd-pipeline-run-echo-message
+    Pipeline Task Name:  echo-message
+    API Version:         tekton.dev/v1
+    Kind:                TaskRun
+    Name:                simple-cd-pipeline-run-cleanup-workspace
+    Pipeline Task Name:  cleanup-workspace
+  Conditions:
+    Last Transition Time:  2026-11-18T20:56:06Z
+    Message:               Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped: 0
+    Reason:                Running
+    Status:                Unknown
+    Type:                  Succeeded
+  Pipeline Spec:
+    Params:
+      Default:  Hello from Tekton CD Pipeline
+      Name:     message
+      Type:     string
+    Tasks:
+      Name:  echo-message
+      Params:
+        Name:   message
+        Value:  CD Pipeline executed successfully on minikube
+      Task Ref:
+        Kind:  Task
+        Name:  echo
+      Name:    cleanup-workspace
+      Run After:
+        echo-message
+      Task Ref:
+        Kind:  Task
+        Name:  cleanup
+      Workspaces:
+        Name:       source
+        Workspace:  pipeline-workspace
+    Workspaces:
+      Name:  pipeline-workspace
+  Provenance:
+    Feature Flags:
+      Await Sidecar Readiness:                true
+      Coschedule:                             workspaces
+      Enable APIFields:                       beta
+      Enable Provenance In Status:            true
+      Enforce Nonfalsifiability:              none
+      Max Result Size:                        4096
+      Result Extraction Method:               termination-message
+      Running In Env With Injected Sidecars:  true
+      Verification No Match Policy:           ignore
+  Start Time:                                 2026-11-18T20:55:56Z
+Events:
+  Type    Reason   Age                From         Message
+  ----    ------   ----               ----         -------
+  Normal  Started  97s (x2 over 97s)  PipelineRun  
+  Normal  Running  97s (x2 over 97s)  PipelineRun  Tasks Completed: 0 (Failed: 0, Cancelled 0), Incomplete: 2, Skipped: 0
+  Normal  Running  87s (x2 over 87s)  PipelineRun  Tasks Completed: 1 (Failed: 0, Cancelled 0), Incomplete: 1, Skipped: 0
